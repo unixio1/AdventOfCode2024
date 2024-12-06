@@ -1,30 +1,22 @@
 package main
 
 import (
-	"bufio"
+	"adventOfCode2024/customScanner"
 	"fmt"
-	"io"
-	"log"
-	"os"
 	"strconv"
 	"strings"
 )
 
-type CustomScanner struct {
-	io.Closer
-	*bufio.Scanner
-}
-
 func main() {
-	scanner := getFileScanner("data.data")
+	scanner := customScanner.GetFileScanner("data.data")
 	partOneResponse := partOne(scanner)
-	scanner = getFileScanner("data.data")
+	scanner = customScanner.GetFileScanner("data.data")
 	partTwoResponse := partTwo(scanner)
 	fmt.Println(partOneResponse)
 	fmt.Println(partTwoResponse)
 }
 
-func partOne(scanner *CustomScanner) int {
+func partOne(scanner *customScanner.CustomScanner) int {
 	defer scanner.Close()
 	validLines := 0
 	for scanner.Scan() {
@@ -37,7 +29,7 @@ func partOne(scanner *CustomScanner) int {
 	return validLines
 }
 
-func partTwo(scanner *CustomScanner) int {
+func partTwo(scanner *customScanner.CustomScanner) int {
 	defer scanner.Close()
 	validLines := 0
 	for scanner.Scan() {
@@ -57,15 +49,6 @@ func partTwo(scanner *CustomScanner) int {
 	}
 	return validLines
 
-}
-
-func getFileScanner(fileName string) *CustomScanner {
-	file, err := os.Open(fileName)
-	if err != nil {
-		log.Fatal(err)
-	}
-	scanner := bufio.NewScanner(file)
-	return &CustomScanner{file, scanner}
 }
 
 func parseLine(line string) []int {
